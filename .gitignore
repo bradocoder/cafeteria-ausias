@@ -1,0 +1,41 @@
+# === Logs ===
+storage/logs/*
+!storage/logs/.gitkeep
+
+# === Caché ===
+storage/cache/*
+!storage/cache/.gitkeep
+
+# === Datos volátiles (futuros JSON, uploads, etc.) ===
+storage/data/*
+!storage/data/.gitkeep
+
+# === Configuración con secretos ===
+# El config real vive en /etc/cafeteria/config.php (FUERA del repo)
+# Nunca subir credenciales
+*.env
+.env
+config.local.php
+
+# === Editor / SO ===
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# === Dependencias (si en algún momento usas Composer) ===
+vendor/
+node_modules/
+
+# === Backups ===
+*.bak
+*.backup
+*.tar.gz
+*.zip
+
+# === PHP errores ===
+php_errors.log
+error_log
+
