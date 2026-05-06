@@ -20,13 +20,22 @@
         <button class="nav-toggle" aria-label="Abrir menú" onclick="document.body.classList.toggle('nav-open')">
             <span></span><span></span><span></span>
         </button>
-        <nav class="nav">
-            <a href="/?r=home">Inicio</a>
-            <a href="/?r=productos">Productos</a>
-            <a href="/?r=carrito" class="nav__cart">
-    	       Carrito <span class="nav__cart-badge" id="cart-count" hidden>0</span>
-	    </a>
-        </nav>
+	<nav class="nav">
+    <a href="/?r=home">Inicio</a>
+    <a href="/?r=productos">Productos</a>
+    <a href="/?r=carrito" class="nav__cart">
+        Carrito <span class="nav__cart-badge" id="cart-count" hidden>0</span>
+    </a>
+    <?php if (AuthService::logueado()): ?>
+        <?php $u = AuthService::usuario(); ?>
+        <a href="/?r=mis-pedidos">Mis pedidos</a>
+        <span class="nav__user">Hola, <?= htmlspecialchars($u['nombre']) ?></span>
+        <a href="/?r=logout" class="nav__logout">Salir</a>
+    <?php else: ?>
+        <a href="/?r=login">Entrar</a>
+        <a href="/?r=registro" class="nav__register">Registrarse</a>
+    <?php endif; ?>
+</nav>
     </div>
 </header>
 <main class="main">
