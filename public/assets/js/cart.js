@@ -206,9 +206,8 @@
             li.className = 'cart__item';
             li.innerHTML = `
                 <img class="cart__img"
-                     src="${escapeAttr(item.imagen_thumb || '/assets/img/placeholder.svg')}"
+                     src="/?r=imagen&id=${item.id}"
                      alt=""
-                     onerror="this.src='/assets/img/placeholder.svg'">
                 <div class="cart__info">
                     <span class="cart__cat">${escapeHtml(item.categoria || '')}</span>
                     <h4 class="cart__name">${escapeHtml(item.nombre)}</h4>

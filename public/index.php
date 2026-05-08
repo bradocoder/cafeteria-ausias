@@ -41,14 +41,19 @@ session_set_cookie_params([
 session_start();
 
 $rutas = [
-    'home'        => 'Controllers/HomeController.php',
-    'productos'   => 'Controllers/ProductosController.php',
-    'producto'    => 'Controllers/ProductoController.php',
-    'carrito'     => 'Controllers/CarritoController.php',
-    'login'       => 'Controllers/LoginController.php',
-    'registro'    => 'Controllers/RegistroController.php',
-    'logout'      => 'Controllers/LogoutController.php',
-    'mis-pedidos' => 'Controllers/MisPedidosController.php',
+    'home'                   => 'Controllers/HomeController.php',
+    'productos'              => 'Controllers/ProductosController.php',
+    'producto'               => 'Controllers/ProductoController.php',
+    'carrito'                => 'Controllers/CarritoController.php',
+    'login'                  => 'Controllers/LoginController.php',
+    'registro'               => 'Controllers/RegistroController.php',
+    'logout'                 => 'Controllers/LogoutController.php',
+    'mis-pedidos'            => 'Controllers/MisPedidosController.php',
+    'imagen'                 => 'Controllers/ImagenController.php',
+    'admin-productos'        => 'Controllers/AdminProductosController.php',
+    'admin-producto-form'    => 'Controllers/AdminProductoFormController.php',
+    'admin-producto-guardar' => 'Controllers/AdminProductoGuardarController.php',
+    'admin-producto-toggle'  => 'Controllers/AdminProductoToggleController.php',
 ];
 
 $route = $_GET['r'] ?? 'home';

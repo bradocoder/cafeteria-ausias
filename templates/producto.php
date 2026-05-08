@@ -17,9 +17,8 @@
 
 <article class="detail">
     <div class="detail__media">
-        <img src="<?= htmlspecialchars($producto['imagen'] ?: $producto['imagen_thumb'] ?: '/assets/img/placeholder.svg') ?>"
+        <img src="/?r=imagen&id=<?= (int)$producto['id'] ?>"
              alt="<?= htmlspecialchars($producto['nombre']) ?>"
-             onerror="this.src='/assets/img/placeholder.svg'">
         <?php if ((int)$producto['destacado'] === 1): ?>
             <span class="card__badge detail__badge">Destacado</span>
         <?php endif; ?>

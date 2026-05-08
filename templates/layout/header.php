@@ -35,6 +35,9 @@
     <?php if (AuthService::logueado()): ?>
         <?php $u = AuthService::usuario(); ?>
         <a href="/?r=mis-pedidos">Mis pedidos</a>
+	<?php if (AuthService::esAdmin()): ?>
+    	<a href="/?r=admin-productos" class="nav__admin">Admin</a>
+	<?php endif; ?>
         <span class="nav__user">Hola, <?= htmlspecialchars($u['nombre']) ?></span>
         <a href="/?r=logout" class="nav__logout">Salir</a>
     <?php else: ?>

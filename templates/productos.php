@@ -30,9 +30,8 @@
     <?php endif; ?>
     <a class="card__link" href="/?r=producto&id=<?= (int)$p['id'] ?>">
         <div class="card__media">
-            <img src="<?= htmlspecialchars($p['imagen_thumb'] ?: '/assets/img/placeholder.svg') ?>"
+            <img src="/?r=imagen&id=<?= (int)$p['id'] ?>"
                  alt="<?= htmlspecialchars($p['nombre']) ?>"
-                 onerror="this.src='/assets/img/placeholder.svg'"
                  loading="lazy">
         </div>
         <div class="card__body">
