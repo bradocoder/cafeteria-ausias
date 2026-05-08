@@ -23,9 +23,15 @@
 	<nav class="nav">
     <a href="/?r=home">Inicio</a>
     <a href="/?r=productos">Productos</a>
+
+    <span class="nav__sep"></span>
+
     <a href="/?r=carrito" class="nav__cart">
         Carrito <span class="nav__cart-badge" id="cart-count" hidden>0</span>
     </a>
+
+    <span class="nav__sep"></span>
+
     <?php if (AuthService::logueado()): ?>
         <?php $u = AuthService::usuario(); ?>
         <a href="/?r=mis-pedidos">Mis pedidos</a>
