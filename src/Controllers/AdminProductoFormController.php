@@ -32,6 +32,6 @@ try {
     $errorBD = $e->getMessage();
 }
 
-require APP_CONFIG['paths']['templates'] . '/layout/header.php';
+require APP_CONFIG['paths']['templates'] . '/layout/admin-header.php';
 require APP_CONFIG['paths']['templates'] . '/admin/producto-form.php';
-require APP_CONFIG['paths']['templates'] . '/layout/footer.php';
+require APP_CONFIG['paths']['templates'] . '/layout/admin-footer.php';

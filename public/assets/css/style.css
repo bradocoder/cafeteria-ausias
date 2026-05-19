@@ -148,6 +148,7 @@ input, textarea, select { font: inherit; color: inherit; }
     height: 22px;
     background: rgba(255,255,255,0.22);
     margin: 0 0.5rem;
+    align-self: center;
 }
 
 /* Acción secundaria: Carrito */

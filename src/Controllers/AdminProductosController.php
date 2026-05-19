@@ -14,11 +14,19 @@ try {
     $errorBD = $e->getMessage();
 }
 
+// Stats
+$stats = [
+    'total'      => count($productos),
+    'activos'    => count(array_filter($productos, fn($p) => $p['activo'])),
+    'destacados' => count(array_filter($productos, fn($p) => $p['destacado'])),
+    'con_imagen' => count(array_filter($productos, fn($p) => $p['tiene_imagen'])),
+];
+
 // Mensajes flash
 $flashOk = $_SESSION['flash_ok'] ?? null;
 $flashError = $_SESSION['flash_error'] ?? null;
 unset($_SESSION['flash_ok'], $_SESSION['flash_error']);
 
-require APP_CONFIG['paths']['templates'] . '/layout/header.php';
+require APP_CONFIG['paths']['templates'] . '/layout/admin-header.php';
 require APP_CONFIG['paths']['templates'] . '/admin/productos.php';
-require APP_CONFIG['paths']['templates'] . '/layout/footer.php';
+require APP_CONFIG['paths']['templates'] . '/layout/admin-footer.php';
