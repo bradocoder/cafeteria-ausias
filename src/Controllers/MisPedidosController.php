@@ -7,6 +7,13 @@ $titulo = 'Mis pedidos - ' . APP_CONFIG['app']['name'];
 $servidor = APP_CONFIG['app']['server_id'];
 $user = AuthService::usuario();
 
+try {
+    $pedidos = Pedido::listarPorCliente((int)$user['id']);
+} catch (Throwable $e) {
+    $pedidos = [];
+    $errorBD = $e->getMessage();
+}
+
 require APP_CONFIG['paths']['templates'] . '/layout/header.php';
 require APP_CONFIG['paths']['templates'] . '/mis-pedidos.php';
 require APP_CONFIG['paths']['templates'] . '/layout/footer.php';

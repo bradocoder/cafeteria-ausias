@@ -249,23 +249,77 @@
     /* ---------- Vaciar carrito + checkout ---------- */
 
     function bindCartActions() {
-        const clearBtn = document.getElementById('cart-clear');
-        if (clearBtn) {
-            clearBtn.addEventListener('click', () => {
-                if (confirm('¿Vaciar el carrito?')) {
-                    clearCart();
-                    renderCartPage();
-                }
-            });
-        }
-
-        const checkoutBtn = document.getElementById('cart-checkout');
-        if (checkoutBtn) {
-            checkoutBtn.addEventListener('click', () => {
-                alert('Confirmación de pedido pendiente.\nEsto se implementará cuando exista login + endpoint de creación de pedidos.');
-            });
-        }
+    const clearBtn = document.getElementById('cart-clear');
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            if (confirm('¿Vaciar el carrito?')) {
+                clearCart();
+                renderCartPage();
+            }
+        });
     }
+
+    const checkoutBtn = document.getElementById('cart-checkout');
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', async () => {
+            const logged = document.getElementById('cart-logged')?.value === '1';
+            if (!logged) {
+                window.location.href = '/?r=login';
+                return;
+            }
+
+            const items = getCart();
+            if (items.length === 0) return;
+
+            const csrf = document.getElementById('cart-csrf')?.value || '';
+            const observaciones = document.getElementById('cart-observaciones')?.value || '';
+            const errEl = document.getElementById('cart-error-msg');
+            if (errEl) errEl.hidden = true;
+
+            // Estado de carga
+            const originalText = checkoutBtn.textContent;
+            checkoutBtn.disabled = true;
+            checkoutBtn.textContent = 'Procesando…';
+
+            try {
+                const resp = await fetch('/?r=pedido-confirmar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        _csrf: csrf,
+                        items: items.map(i => ({ id: i.id, qty: i.qty })),
+                        observaciones: observaciones,
+                    }),
+                });
+
+                const data = await resp.json();
+
+                if (resp.ok && data.ok) {
+                    clearCart();
+                    window.location.href = data.redirect + '&nuevo=1';
+                } else {
+                    if (errEl) {
+                        errEl.textContent = data.error || 'No se pudo confirmar el pedido.';
+                        errEl.hidden = false;
+                    }
+                    checkoutBtn.disabled = false;
+                    checkoutBtn.textContent = originalText;
+                    if (data.redirect) {
+                        setTimeout(() => { window.location.href = data.redirect; }, 1500);
+                    }
+                }
+            } catch (e) {
+                console.error(e);
+                if (errEl) {
+                    errEl.textContent = 'Error de conexión. Inténtalo de nuevo.';
+                    errEl.hidden = false;
+                }
+                checkoutBtn.disabled = false;
+                checkoutBtn.textContent = originalText;
+            }
+        });
+    }
+}
 
     /* ---------- Helpers ---------- */
 

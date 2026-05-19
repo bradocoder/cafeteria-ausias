@@ -28,11 +28,11 @@
                 <span class="admin-nav__dot"></span>
                 Productos
             </a>
-            <a href="#" class="admin-nav__link admin-nav__link--disabled" title="Próximamente">
-                <span class="admin-nav__dot"></span>
-                Pedidos
-                <span class="admin-nav__tag">pronto</span>
-            </a>
+            <a href="/?r=admin-pedidos"
+  		 class="admin-nav__link <?= ($_GET['r'] ?? '') === 'admin-pedidos' ? 'is-active' : '' ?>">
+    		<span class="admin-nav__dot"></span>
+    		Pedidos
+		</a>
             <a href="#" class="admin-nav__link admin-nav__link--disabled" title="Próximamente">
                 <span class="admin-nav__dot"></span>
                 Clientes

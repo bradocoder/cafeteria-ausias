@@ -50,10 +50,14 @@ $rutas = [
     'logout'                 => 'Controllers/LogoutController.php',
     'mis-pedidos'            => 'Controllers/MisPedidosController.php',
     'imagen'                 => 'Controllers/ImagenController.php',
+    'pedido-confirmar'       => 'Controllers/PedidoConfirmarController.php',
+    'pedido'                 => 'Controllers/PedidoController.php',
     'admin-productos'        => 'Controllers/AdminProductosController.php',
     'admin-producto-form'    => 'Controllers/AdminProductoFormController.php',
     'admin-producto-guardar' => 'Controllers/AdminProductoGuardarController.php',
     'admin-producto-toggle'  => 'Controllers/AdminProductoToggleController.php',
+    'admin-pedidos'          => 'Controllers/AdminPedidosController.php',
+    'admin-pedido-estado'    => 'Controllers/AdminPedidoEstadoController.php',
 ];
 
 $route = $_GET['r'] ?? 'home';
