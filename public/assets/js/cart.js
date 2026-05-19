@@ -128,123 +128,132 @@
     }
 
     async function renderCartPage() {
-        const cartContent = document.getElementById('cart-content');
-        if (!cartContent) return; // No estamos en la página del carrito
+    const cartContent = document.getElementById('cart-content');
+    if (!cartContent) return; // No estamos en la página del carrito
 
-        const empty = document.getElementById('cart-empty');
-        const loading = document.getElementById('cart-loading');
-        const errorEl = document.getElementById('cart-error');
+    const empty = document.getElementById('cart-empty');
+    const loading = document.getElementById('cart-loading');
+    const errorEl = document.getElementById('cart-error');
 
-        const items = getCart();
+    const items = getCart();
 
-        if (items.length === 0) {
-            loading.hidden = true;
-            empty.hidden = false;
-            return;
-        }
-
-        // Revalidar contra el servidor
-        let serverProducts;
-        try {
-            const resp = await fetch('/?r=carrito', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ ids: items.map(i => i.id) })
-            });
-            const data = await resp.json();
-            if (data.error) throw new Error(data.error);
-            serverProducts = data.productos;
-        } catch (err) {
-            loading.hidden = true;
-            errorEl.hidden = false;
-            console.error(err);
-            return;
-        }
-
-        // Cruzar carrito con datos del servidor (precios y nombres autoritativos)
-        const validItems = [];
-        for (const cartItem of items) {
-            const server = serverProducts.find(p => p.id === cartItem.id);
-            if (!server) continue; // producto desactivado o eliminado
-            validItems.push({
-                id: server.id,
-                nombre: server.nombre,
-                precio: parseFloat(server.precio),
-                imagen_thumb: server.imagen_thumb,
-                categoria: server.categoria_nombre,
-                qty: cartItem.qty
-            });
-        }
-
-        // Si se ha filtrado algo, actualizamos localStorage
-        if (validItems.length !== items.length) {
-            saveCart(validItems.map(({ id, nombre, precio, qty }) => ({ id, nombre, precio, qty })));
-        }
-
-        if (validItems.length === 0) {
-            loading.hidden = true;
-            empty.hidden = false;
-            return;
-        }
-
-        renderItems(validItems);
-        loading.hidden = true;
-        cartContent.hidden = false;
+    // Si el carrito ya está vacío, ocultar todo lo demás
+    if (items.length === 0) {
+        if (loading) loading.hidden = true;
+        if (errorEl) errorEl.hidden = true;
+        cartContent.hidden = true;
+        if (empty) empty.hidden = false;
+        // Vaciar lista por si quedaban items pintados
+        const list = document.getElementById('cart-items');
+        if (list) list.innerHTML = '';
+        return;
     }
+
+    // Revalidar contra el servidor
+    let serverProducts;
+    try {
+        const resp = await fetch('/?r=carrito', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ids: items.map(i => i.id) })
+        });
+        const data = await resp.json();
+        if (data.error) throw new Error(data.error);
+        serverProducts = data.productos;
+    } catch (err) {
+        if (loading) loading.hidden = true;
+        if (errorEl) errorEl.hidden = false;
+        console.error(err);
+        return;
+    }
+
+    // Cruzar carrito con datos del servidor (precios y nombres autoritativos)
+    const validItems = [];
+    for (const cartItem of items) {
+        const server = serverProducts.find(p => p.id === cartItem.id);
+        if (!server) continue;
+        validItems.push({
+            id: server.id,
+            nombre: server.nombre,
+            precio: parseFloat(server.precio),
+            categoria: server.categoria_nombre,
+            qty: cartItem.qty
+        });
+    }
+
+    if (validItems.length !== items.length) {
+        saveCart(validItems.map(({ id, nombre, precio, qty }) => ({ id, nombre, precio, qty })));
+    }
+
+    if (validItems.length === 0) {
+        if (loading) loading.hidden = true;
+        cartContent.hidden = true;
+        if (empty) empty.hidden = false;
+        const list = document.getElementById('cart-items');
+        if (list) list.innerHTML = '';
+        return;
+    }
+
+    renderItems(validItems);
+    if (loading) loading.hidden = true;
+    if (empty) empty.hidden = true;
+    if (errorEl) errorEl.hidden = true;
+    cartContent.hidden = false;
+}
 
     function renderItems(items) {
-        const list = document.getElementById('cart-items');
-        list.innerHTML = '';
+    const list = document.getElementById('cart-items');
+    list.innerHTML = '';
 
-        let subtotal = 0;
+    let subtotal = 0;
 
-        items.forEach(item => {
-            const lineTotal = item.precio * item.qty;
-            subtotal += lineTotal;
+    items.forEach(item => {
+        const lineTotal = item.precio * item.qty;
+        subtotal += lineTotal;
 
-            const li = document.createElement('li');
-            li.className = 'cart__item';
-            li.innerHTML = `
-                <img class="cart__img"
-                     src="/?r=imagen&id=${item.id}"
-                     alt=""
-                <div class="cart__info">
-                    <span class="cart__cat">${escapeHtml(item.categoria || '')}</span>
-                    <h4 class="cart__name">${escapeHtml(item.nombre)}</h4>
-                    <span class="cart__unit">${formatPrice(item.precio)} / ud.</span>
-                </div>
-                <div class="cart__qty">
-                    <button type="button" class="qty-btn" data-action="dec" data-id="${item.id}" aria-label="Restar">−</button>
-                    <span class="cart__qty-num">${item.qty}</span>
-                    <button type="button" class="qty-btn" data-action="inc" data-id="${item.id}" aria-label="Sumar">+</button>
-                </div>
-                <div class="cart__line-total">${formatPrice(lineTotal)}</div>
-                <button type="button" class="cart__remove" data-action="del" data-id="${item.id}" aria-label="Eliminar">×</button>
-            `;
-            list.appendChild(li);
+        const li = document.createElement('li');
+        li.className = 'cart__item';
+        li.innerHTML = `
+            <img class="cart__img"
+                 src="/?r=imagen&id=${item.id}"
+                 alt="">
+            <div class="cart__info">
+                <span class="cart__cat">${escapeHtml(item.categoria || '')}</span>
+                <h4 class="cart__name">${escapeHtml(item.nombre)}</h4>
+                <span class="cart__unit">${formatPrice(item.precio)} / ud.</span>
+            </div>
+            <div class="cart__qty">
+                <button type="button" class="qty-btn" data-action="dec" data-id="${item.id}" aria-label="Restar">−</button>
+                <span class="cart__qty-num">${item.qty}</span>
+                <button type="button" class="qty-btn" data-action="inc" data-id="${item.id}" aria-label="Sumar">+</button>
+            </div>
+            <div class="cart__line-total">${formatPrice(lineTotal)}</div>
+            <button type="button" class="cart__remove" data-action="del" data-id="${item.id}" aria-label="Eliminar">×</button>
+        `;
+        list.appendChild(li);
+    });
+
+    document.getElementById('cart-subtotal').textContent = formatPrice(subtotal);
+    document.getElementById('cart-total').textContent = formatPrice(subtotal);
+    document.getElementById('cart-checkout').disabled = false;
+
+    // Bind acciones de la lista
+    list.querySelectorAll('[data-action]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = parseInt(btn.dataset.id, 10);
+            const action = btn.dataset.action;
+            const cart = getCart();
+            const item = cart.find(i => i.id === id);
+            if (!item) return;
+
+            if (action === 'inc') updateQty(id, item.qty + 1);
+            else if (action === 'dec') updateQty(id, item.qty - 1);
+            else if (action === 'del') updateQty(id, 0);
+
+            renderCartPage();
         });
-
-        document.getElementById('cart-subtotal').textContent = formatPrice(subtotal);
-        document.getElementById('cart-total').textContent = formatPrice(subtotal);
-        document.getElementById('cart-checkout').disabled = false;
-
-        // Bind acciones de la lista
-        list.querySelectorAll('[data-action]').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const id = parseInt(btn.dataset.id, 10);
-                const action = btn.dataset.action;
-                const cart = getCart();
-                const item = cart.find(i => i.id === id);
-                if (!item) return;
-
-                if (action === 'inc') updateQty(id, item.qty + 1);
-                else if (action === 'dec') updateQty(id, item.qty - 1);
-                else if (action === 'del') updateQty(id, 0);
-
-                renderCartPage();
-            });
-        });
-    }
+    });
+}
 
     /* ---------- Vaciar carrito + checkout ---------- */
 
