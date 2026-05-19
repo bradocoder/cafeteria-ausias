@@ -1208,8 +1208,14 @@ input, textarea, select { font: inherit; color: inherit; }
     background: var(--c-surface);
     border: 1px solid var(--c-border);
     border-radius: var(--radius);
-    overflow: hidden;
+    overflow: visible;
 }
+
+/* Esquinas redondeadas mediante celdas de la tabla */
+.admin-card .admin-tbl thead th:first-child { border-top-left-radius: var(--radius); }
+.admin-card .admin-tbl thead th:last-child  { border-top-right-radius: var(--radius); }
+.admin-card .admin-tbl tbody tr:last-child td:first-child { border-bottom-left-radius: var(--radius); }
+.admin-card .admin-tbl tbody tr:last-child td:last-child  { border-bottom-right-radius: var(--radius); }
 
 /* ===== Tabla ===== */
 .admin-tbl {
@@ -1472,4 +1478,311 @@ input, textarea, select { font: inherit; color: inherit; }
     .admin-burger { display: flex; align-items: center; justify-content: center; }
     .admin-content { padding: 1.2rem 1rem; }
     .admin-user__info { display: none; }
+}
+
+/* ============ ESTADO PEDIDO (tags coloreadas) ============ */
+.estado-tag {
+    display: inline-block;
+    padding: 0.22rem 0.65rem;
+    border-radius: 100px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    line-height: 1.4;
+}
+.estado--pendiente  { background: rgba(251,191,36,0.18);  color: #d97706; }
+.estado--preparando { background: rgba(96,165,250,0.18);  color: #2563eb; }
+.estado--listo      { background: rgba(16,185,129,0.18);  color: #059669; }
+.estado--entregado  { background: rgba(100,116,139,0.18); color: #475569; }
+.estado--cancelado  { background: rgba(244,63,94,0.15);   color: #be123c; }
+
+/* En tema oscuro, suben de luminosidad */
+.admin-theme .estado--pendiente  { background: rgba(251,191,36,0.18);  color: #fbbf24; }
+.admin-theme .estado--preparando { background: rgba(96,165,250,0.2);   color: #60a5fa; }
+.admin-theme .estado--listo      { background: rgba(16,185,129,0.2);   color: #34d399; }
+.admin-theme .estado--entregado  { background: rgba(148,163,184,0.18); color: #94a3b8; }
+.admin-theme .estado--cancelado  { background: rgba(244,63,94,0.18);   color: #f87171; }
+
+/* ============ PEDIDO CONFIRMADO ============ */
+.confirm-banner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: linear-gradient(135deg, rgba(31,138,76,0.08), rgba(31,138,76,0.02));
+    border: 1px solid rgba(31,138,76,0.25);
+    border-radius: var(--radius-lg);
+    padding: 1.4rem 1.6rem;
+    margin-bottom: 1.5rem;
+}
+.confirm-banner__icon {
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    background: var(--c-accent);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(31,138,76,0.3);
+}
+.confirm-banner__title {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: var(--c-accent-dark);
+    margin-bottom: 0.15rem;
+}
+.confirm-banner__lead { color: var(--c-text-soft); font-size: 0.95rem; }
+
+.pedido-card {
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+.pedido-card__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.5rem 1.8rem;
+    border-bottom: 1px solid var(--c-border);
+    background: linear-gradient(180deg, var(--c-surface), var(--c-bg));
+}
+.pedido-card__label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--c-text-mute);
+}
+.pedido-card__num {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--c-brand);
+    line-height: 1.1;
+    margin-top: 0.1rem;
+}
+.pedido-card__meta {
+    font-size: 0.85rem;
+    color: var(--c-text-soft);
+    margin-top: 0.3rem;
+}
+
+.pedido-lineas { list-style: none; padding: 0; margin: 0; }
+.pedido-linea {
+    display: grid;
+    grid-template-columns: 50px 1fr auto auto;
+    gap: 1rem;
+    padding: 0.85rem 1.8rem;
+    border-bottom: 1px solid var(--c-border);
+    align-items: center;
+    font-size: 0.95rem;
+}
+.pedido-linea:last-child { border-bottom: 0; }
+.pedido-linea__qty {
+    color: var(--c-text-mute);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+.pedido-linea__unit { color: var(--c-text-mute); font-size: 0.85rem; }
+.pedido-linea__sub {
+    font-weight: 600;
+    color: var(--c-text);
+    font-variant-numeric: tabular-nums;
+    min-width: 5em;
+    text-align: right;
+}
+
+.pedido-obs {
+    padding: 1rem 1.8rem;
+    background: var(--c-bg);
+    border-top: 1px solid var(--c-border);
+    font-size: 0.92rem;
+    color: var(--c-text-soft);
+}
+.pedido-obs strong {
+    display: block;
+    color: var(--c-text);
+    margin-bottom: 0.2rem;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+}
+
+.pedido-card__foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 1.8rem;
+    background: var(--c-bg);
+    border-top: 1px solid var(--c-border);
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+.pedido-card__foot strong { color: var(--c-brand); }
+
+.pedido-help {
+    color: var(--c-text-mute);
+    font-size: 0.88rem;
+    text-align: center;
+    line-height: 1.5;
+}
+.pedido-help a { color: var(--c-brand); font-weight: 500; }
+
+/* ============ HISTORIAL "MIS PEDIDOS" ============ */
+.historial {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.historial__item { }
+.historial__link {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1rem 1.3rem;
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    transition: border-color var(--t-fast), transform var(--t-fast);
+}
+.historial__link:hover {
+    border-color: var(--c-brand);
+    transform: translateX(2px);
+}
+.historial__main { display: flex; flex-direction: column; gap: 0.15rem; }
+.historial__num {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: var(--c-text);
+}
+.historial__fecha { font-size: 0.82rem; color: var(--c-text-mute); }
+.historial__lineas { color: var(--c-text-soft); font-size: 0.88rem; }
+.historial__total {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--c-brand);
+    font-variant-numeric: tabular-nums;
+}
+
+/* ============ TEXTAREA CARRITO ============ */
+.cart__obs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-top: 1rem;
+}
+.cart__obs textarea {
+    width: 100%;
+    padding: 0.65rem 0.8rem;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-sm);
+    font: inherit;
+    font-size: 0.88rem;
+    background: var(--c-surface);
+    resize: vertical;
+}
+.cart__obs textarea:focus {
+    outline: none;
+    border-color: var(--c-brand);
+    box-shadow: 0 0 0 3px var(--c-brand-soft);
+}
+
+.alert--info {
+    border-left-color: #3b82f6;
+    background: rgba(59,130,246,0.06);
+    color: #1e40af;
+    margin: 0.8rem 0;
+}
+.alert--info a { color: #1e40af; font-weight: 600; text-decoration: underline; }
+
+/* ============ FILTROS ADMIN ============ */
+.admin-filters {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--c-border);
+}
+.admin-filter {
+    padding: 0.4rem 0.9rem;
+    border-radius: 100px;
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    color: var(--c-text-soft);
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all var(--t-fast);
+}
+.admin-filter:hover { border-color: var(--c-text-mute); color: var(--c-text); }
+.admin-filter.is-active {
+    background: var(--c-brand);
+    color: #fff;
+    border-color: var(--c-brand);
+}
+
+/* ============ DROPDOWN ADMIN (cambiar estado) ============ */
+.admin-dropdown {
+    display: inline-block;
+    position: relative;
+}
+.admin-dropdown > summary {
+    list-style: none;
+    cursor: pointer;
+}
+.admin-dropdown > summary::-webkit-details-marker { display: none; }
+.admin-dropdown > summary::marker { content: ''; }
+
+.admin-dropdown__menu {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 6px);
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-sm);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    padding: 0.3rem;
+    z-index: 1000;
+    min-width: 150px;
+    text-align: left;
+}
+.admin-dropdown__menu form { display: block; margin: 0; }
+.admin-dropdown__menu button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    background: transparent;
+    color: var(--c-text-soft);
+    font-size: 0.85rem;
+    border-radius: var(--radius-sm);
+    transition: background var(--t-fast);
+    cursor: pointer;
+    border: 0;
+}
+.admin-dropdown__menu button:hover {
+    background: var(--c-surface-2);
+    color: var(--c-text);
+}
+
+/* Responsive */
+@media (max-width: 720px) {
+    .historial__link {
+        grid-template-columns: 1fr auto;
+        gap: 0.6rem;
+    }
+    .historial__lineas { display: none; }
+    .pedido-card__head { flex-direction: column; }
+    .pedido-linea { grid-template-columns: 40px 1fr auto; padding: 0.7rem 1.2rem; }
+    .pedido-linea__unit { display: none; }
+    .pedido-card__foot { padding: 1rem 1.2rem; font-size: 1.2rem; }
 }
