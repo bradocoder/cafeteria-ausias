@@ -58,6 +58,7 @@ $rutas = [
     'admin-producto-toggle'  => 'Controllers/AdminProductoToggleController.php',
     'admin-pedidos'          => 'Controllers/AdminPedidosController.php',
     'admin-pedido-estado'    => 'Controllers/AdminPedidoEstadoController.php',
+    'admin-clientes'         => 'Controllers/AdminClientesController.php',
 ];
 
 $route = $_GET['r'] ?? 'home';

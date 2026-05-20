@@ -15,3 +15,4 @@ final class Categoria
         return $stmt->fetchAll();
     }
 }
+ 

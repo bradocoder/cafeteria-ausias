@@ -70,4 +70,30 @@ final class Cliente
         );
         $stmt->execute([':id' => $id]);
     }
+
+        /** Lista todos los clientes con stats (para panel admin). */
+    public static function listarTodos(): array
+    {
+    $sql = "SELECT c.id, c.nombre, c.username, c.rol, c.curso_grupo,
+                   c.activo, c.created_at, c.ultimo_login,
+                   (SELECT COUNT(*) FROM pedidos p WHERE p.cliente_id = c.id) AS total_pedidos,
+                   (SELECT COALESCE(SUM(p.total), 0) FROM pedidos p WHERE p.cliente_id = c.id) AS total_gastado
+            FROM clientes c
+            ORDER BY c.created_at DESC";
+
+    return Database::getConnection()->query($sql)->fetchAll();
+    }
+
+    /** Stats globales de clientes para el dashboard. */
+    public static function stats(): array
+    {
+    $db = Database::getConnection();
+    return [
+        'total'       => (int) $db->query("SELECT COUNT(*) FROM clientes")->fetchColumn(),
+        'activos'     => (int) $db->query("SELECT COUNT(*) FROM clientes WHERE activo = 1")->fetchColumn(),
+        'admins'      => (int) $db->query("SELECT COUNT(*) FROM clientes WHERE rol = 'admin'")->fetchColumn(),
+        'nuevos_7d'   => (int) $db->query("SELECT COUNT(*) FROM clientes WHERE created_at >= NOW() - INTERVAL 7 DAY")->fetchColumn(),
+    ];
+    }
+
 }
