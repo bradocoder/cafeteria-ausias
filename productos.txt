@@ -1,0 +1,41 @@
+id	nombre	descripcion
+6	Bocadillo Blanco y Negro	Longaniza y morcilla
+1	Bocadillo de Jamón y Queso	Jamón y queso en pan crujiente
+3	Bocadillo de Lomo y Patatas	Lomo con patatas fritas
+4	Bocadillo de Lomo, Bacon y Queso	Lomo, bacon y queso fundido
+2	Bocadillo de Longaniza y Patatas	Longaniza con patatas fritas
+7	Bocadillo de Tortilla de Patata	Tortilla de patata casera
+5	Hamburguesa	Hamburguesa de ternera con pan especial
+11	Café Bombón	Café con leche condensada
+10	Café con Leche	Café con leche caliente
+8	Café Espresso	Café solo expreso
+9	Café Solo	Café solo de filtro
+13	Agua 1.5L	Agua mineral 1.5 litros
+12	Agua 50cl	Agua mineral 50 centilitros
+17	Aquarius Limón	Bebida isotónica de limón
+16	Aquarius Naranja	Bebida isotónica de naranja
+18	Coca Cola	Coca Cola original
+19	Coca Cola Zero	Coca Cola sin azúcar
+20	Coca Cola Zero Zero	Coca Cola sin cafeína ni azúcar
+15	Fanta Limón	Refresco de limón
+14	Fanta Naranja	Refresco de naranja
+21	Nestea	Té frío de melocotón
+28	Cookie Chocolate Negro	Galleta con chocolate negro
+29	Cookie Lacasitos	Galleta con lacasitos de colores
+26	Jumpers	Snack de maíz original
+27	Jumpers Ketchup	Snack de maíz sabor ketchup
+31	Manzana	Fruta natural
+30	Plátano	Fruta natural
+22	Pringles	Patatas fritas sabor original
+24	Pringles Hot & Spicy	Picantes
+25	Pringles Paprika	Sabor paprika
+23	Pringles Sour Cream & Onion	Crema agria y cebolla
+33	Rosquilletas de Pipas	Rosquilletas con pipas
+34	Rosquilletas de Queso	Rosquilletas sabor queso
+32	Rosquilletas de Sal	Rosquilletas saladas
+40	Caracola de Chocolate	Bollo con forma de caracola relleno de chocolate
+38	Croissant	Croissant de mantequilla
+39	Croissant de Chocolate	Croissant relleno de chocolate
+36	Panini de Bacon y Queso	Panini con bacon y queso
+35	Panini de Jamón y Queso	Panini caliente con jamón y queso
+37	Pizza Cuatro Quesos	Porción de pizza cuatro quesos
